@@ -75,13 +75,27 @@ const Login = () => {
         console.log(error)
         });
     }
+
+    const handleLogin=(e)=>{
+
+        e.preventDefault();
+
+
+        const email=e.target.email.value;
+        const password=e.target.password.value;
+
+        const usersss={email,password}
+
+        console.log(usersss)
+
+
+    }
   return (
 
     <div>
-        <form action="">
+        <form onSubmit={handleLogin} action="">
             <h1>Login Form</h1>
-            <input className='block w-[600px] border border-red-500' type="text" name="name" id="name" />
-            <input className='block w-[600px] border border-red-500' type="number" name="number" id="number" />
+            <input className='block border border-green-300' type="email" name="email" id="email" />
             <input className='block w-[600px] border border-red-500' type="password" name="password" id="password" />
             <input className='block w-[600px] border border-red-500' type="submit" value="Login" />
         </form>

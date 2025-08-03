@@ -6,6 +6,7 @@ import './App.css'
 import Root from './route/Root'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import SingUp from './pages/SingUp'
 
 function App() {
  
@@ -16,6 +17,7 @@ function App() {
     children: [
       { path: '/', element: <Home /> },
       {path:'/login', element:<Login />},
+      {path:'/singup', element:<SingUp />}
     ],
   },
 ])
