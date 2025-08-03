@@ -1,15 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import './App.css'
+import Root from './route/Root'
+import Home from './pages/Home'
+import Login from './pages/Login'
 
 function App() {
  
+  const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children: [
+      { path: '/', element: <Home /> },
+      {path:'/login', element:<Login />},
+    ],
+  },
+])
 
   return (
-    <>
-      <p>hello</p>
-    </>
+   <RouterProvider  router={router} />
   )
 }
 
