@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/firebase.init';
+import { Link } from 'react-router-dom';
 
 
 const SingUp = () => {
@@ -19,11 +20,11 @@ const SingUp = () => {
 
 
 
-        if(!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/.test(password)){
-            alert('fill the input fild')
+        // if(!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/.test(password)){
+        //     alert('fill the input fild')
 
-            return
-        }
+        //     return
+        // }
 
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -58,6 +59,8 @@ const SingUp = () => {
         </form>
         <h1>{succes ? 'login Success Fully': 'please again'}</h1>
         <h1>{error &&   error}</h1>
+
+        <p>Hame Accoutn Please SingIn <Link to={'/login'}>Login</Link></p>
     </div>
   )
 }

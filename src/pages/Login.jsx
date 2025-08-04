@@ -1,12 +1,16 @@
 import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
-import React, { useState } from 'react'
+import {sendPasswordResetEmail } from "firebase/auth";
+
+import React, { useRef, useState } from 'react'
 import { auth } from '../firebase/firebase.init'
+import { Link } from 'react-router-dom';
 // import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 
 
 const Login = () => {
 
     const [users, setUsers]=useState();
+    const emailRef=useRef();
 
 
     const provider=new GoogleAuthProvider()
@@ -90,12 +94,35 @@ const Login = () => {
 
 
     }
+    const hanldeForget=()=>{
+
+      const email=emailRef.current.value;
+
+      if(!email){
+        alert('provide email')
+        return;
+      }
+
+
+      sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent!
+        // ..
+
+        alert('check alert. email'+ email)
+      })
+      .catch((error) => {
+        console.log(error)
+        // ..
+  });
+
+    }
   return (
 
     <div>
         <form onSubmit={handleLogin} action="">
             <h1>Login Form</h1>
-            <input className='block border border-green-300' type="email" name="email" id="email" />
+            <input ref={emailRef} className='block border border-green-300' type="email" name="email" id="email" />
             <input className='block w-[600px] border border-red-500' type="password" name="password" id="password" />
             <input className='block w-[600px] border border-red-500' type="submit" value="Login" />
         </form>
@@ -104,12 +131,14 @@ const Login = () => {
        <button className='block' onClick={handleSingOut}>Sing OUt</button>
        <button className='block' onClick={handleGithub}>Login GitHub</button>
        <button className='block' onClick={hanldeSingoutGitHub}>SingOut</button>
+       <p onClick={hanldeForget} className='text-red-500 cursor-pointer'>ForgetPassword</p>
        <div>
 
         <h1>{users?.displayName}</h1>
         <h1>{users?.displayName}</h1>
         <h1>{users?.email}</h1>
        </div>
+       <p>No Account please SingUp <Link to={'/singup'}>SingUp</Link></p>
 
     </div>
 
