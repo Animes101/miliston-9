@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
-import {createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebase/firebase.init';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react'
+import { Link, Navigate } from 'react-router-dom';
+import UsersContext, { AuthContext } from '../context/UsersContext';
 
 
 const SingUp = () => {
-    
     const [error, setError]=useState('');
     const [succes, setSuccess]=useState(false);
     const [showPassword, setShowPassword]=useState(false);
+    const {users,setUsers,createUsers}=useContext(AuthContext);
 
 
     const hanldeSubmit=(e)=>{
@@ -26,23 +25,21 @@ const SingUp = () => {
         //     return
         // }
 
-        createUserWithEmailAndPassword(auth, email, password)
+        createUsers(email,password)
         .then((userCredential) => {
-    // Signed up 
 
-    console.log(userCredential)
-    setSuccess(true);
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+            setSuccess(true);
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
 
-    console.log(errorCode,errorMessage)
+            console.log(errorCode,errorMessage)
 
-    setError(errorMessage)
-    // ..
-  });
+            setError(errorMessage)
+            // ..
+          });
     }
 
 
@@ -61,6 +58,7 @@ const SingUp = () => {
         <h1>{error &&   error}</h1>
 
         <p>Hame Accoutn Please SingIn <Link to={'/login'}>Login</Link></p>
+        {users && <Navigate to={'/'} replace={true}></Navigate>}
     </div>
   )
 }

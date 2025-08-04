@@ -7,6 +7,7 @@ import Root from './route/Root'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import SingUp from './pages/SingUp'
+import UsersContext from './context/UsersContext'
 
 function App() {
  
@@ -23,7 +24,10 @@ function App() {
 ])
 
   return (
-   <RouterProvider  router={router} />
+    <UsersContext>
+      <RouterProvider  router={router} /> 
+    </UsersContext>
+   
   )
 }
 

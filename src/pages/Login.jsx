@@ -1,26 +1,28 @@
 import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import {sendPasswordResetEmail } from "firebase/auth";
 
-import React, { useRef, useState } from 'react'
+import React, {useContext, useRef } from 'react'
 import { auth } from '../firebase/firebase.init'
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/UsersContext';
 // import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 
 
 const Login = () => {
 
-    const [users, setUsers]=useState();
-    const emailRef=useRef();
-
+    const emailRef=useRef()
 
     const provider=new GoogleAuthProvider()
     const providergit = new GithubAuthProvider();
 
+    const {singOut}=useContext(AuthContext);
+
     const hanldeGoogleLogin=()=>{
+    
         signInWithPopup(auth,provider)
         .then((result)=> {
 
-           setUsers(result.user);
+          
         })
         .then((err)=>{
             console.log(err)
@@ -31,10 +33,10 @@ const Login = () => {
 
     const handleSingOut=()=>{
         
-        signOut(auth)
+        singOut()
         .then(() => {
         // Sign-out successful.
-        setUsers(null);
+        alert('success ful')
         })
         .catch((error) => {
         // An error happened.
@@ -88,33 +90,6 @@ const Login = () => {
         const email=e.target.email.value;
         const password=e.target.password.value;
 
-        const usersss={email,password}
-
-        console.log(usersss)
-
-
-    }
-    const hanldeForget=()=>{
-
-      const email=emailRef.current.value;
-
-      if(!email){
-        alert('provide email')
-        return;
-      }
-
-
-      sendPasswordResetEmail(auth, email)
-      .then(() => {
-        // Password reset email sent!
-        // ..
-
-        alert('check alert. email'+ email)
-      })
-      .catch((error) => {
-        console.log(error)
-        // ..
-  });
 
     }
   return (
@@ -131,12 +106,7 @@ const Login = () => {
        <button className='block' onClick={handleSingOut}>Sing OUt</button>
        <button className='block' onClick={handleGithub}>Login GitHub</button>
        <button className='block' onClick={hanldeSingoutGitHub}>SingOut</button>
-       <p onClick={hanldeForget} className='text-red-500 cursor-pointer'>ForgetPassword</p>
        <div>
-
-        <h1>{users?.displayName}</h1>
-        <h1>{users?.displayName}</h1>
-        <h1>{users?.email}</h1>
        </div>
        <p>No Account please SingUp <Link to={'/singup'}>SingUp</Link></p>
 
